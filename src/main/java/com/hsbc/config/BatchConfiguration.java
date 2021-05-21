@@ -1,0 +1,108 @@
+package com.hsbc.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
+import org.springframework.batch.item.database.JdbcBatchItemWriter;
+import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.MultiResourceItemReader;
+import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.hsbc.dto.Person;
+import com.hsbc.notification.JobCompletionNotificationListener;
+import com.hsbc.processor.PersonItemProcessor;
+
+// tag::setup[]
+@Configuration
+@EnableBatchProcessing
+public class BatchConfiguration {
+	
+	@Value("client*.csv")
+	private Resource[] inputResources;
+
+	@Autowired
+	public JobBuilderFactory jobBuilderFactory;
+
+	@Autowired
+	public StepBuilderFactory stepBuilderFactory;
+	// end::setup[]
+
+	// tag::readerwriterprocessor[]
+	@Bean
+	public FlatFileItemReader<Person> reader() {
+		return new FlatFileItemReaderBuilder<Person>()
+			.name("personItemReader")
+			//.resource(new ClassPathResource("client1-data.csv"))
+			.linesToSkip(1)
+			.delimited()
+			.names(new String[]{"id","jobTitle","emailAddress","firstName","lastName","salary","amoutAddToSalary","phoneNumber"})
+			.fieldSetMapper(new BeanWrapperFieldSetMapper<Person>() {{
+				setTargetType(Person.class);
+			}})
+			.build();
+	}
+
+	@Bean
+	public PersonItemProcessor processor() {
+		return new PersonItemProcessor();
+	}
+
+	@Bean
+	public JdbcBatchItemWriter<Person> writer(DataSource dataSource) {
+		return new JdbcBatchItemWriterBuilder<Person>()
+			.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+			.sql("INSERT INTO people (jobTitle,emailAddress,firstName,lastName,salary,amoutAddToSalary,phoneNumber) VALUES (:jobTitle,:emailAddress,:firstName,:lastName,:salary,:amoutAddToSalary,:phoneNumber)")
+			.dataSource(dataSource)
+			.build();
+	}
+	// end::readerwriterprocessor[]
+
+	// tag::jobstep[]
+	@Bean
+	public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
+		return jobBuilderFactory.get("importUserJob")
+			.incrementer(new RunIdIncrementer())
+			.listener(listener)
+			.flow(step1)
+			.end()
+			.build();
+	}
+	@Bean
+	public MultiResourceItemReader<Person> multiResourceItemReader() 
+	{
+	    MultiResourceItemReader<Person> resourceItemReader = new MultiResourceItemReader<Person>();
+	    resourceItemReader.setResources(inputResources);
+	    resourceItemReader.setDelegate(reader());
+	    return resourceItemReader;
+	}
+
+	@Bean
+	public Step step1(JdbcBatchItemWriter<Person> writer) {
+		return stepBuilderFactory.get("step1")
+			.<Person, Person> chunk(1000)
+			.reader(multiResourceItemReader())
+			.processor(processor())
+			.writer(writer)
+			.throttleLimit(20)
+			.build();
+	}
+	// end::jobstep[]
+}
