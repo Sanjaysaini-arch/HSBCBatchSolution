@@ -1,5 +1,8 @@
 package com.hsbc.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
@@ -18,6 +21,7 @@ import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +33,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.hsbc.dto.Person;
 import com.hsbc.notification.JobCompletionNotificationListener;
 import com.hsbc.processor.PersonItemProcessor;
+import com.hsbc.writers.DbWriter;
+import com.hsbc.writers.FileWriter;
 
 // tag::setup[]
 @Configuration
@@ -43,6 +49,11 @@ public class BatchConfiguration {
 
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
+	
+	@Autowired
+	DbWriter dbWriter;
+	@Autowired
+	FileWriter fileWriter;
 	// end::setup[]
 
 	// tag::readerwriterprocessor[]
@@ -64,6 +75,17 @@ public class BatchConfiguration {
 	public PersonItemProcessor processor() {
 		return new PersonItemProcessor();
 	}
+	
+	/*@Bean
+	public DbWriter dbWriter() {
+		return new DbWriter();
+	}
+	@Bean
+	public FileWriter fileWriter() {
+		return new FileWriter();
+	}*/
+	
+	
 
 	@Bean
 	public JdbcBatchItemWriter<Person> writer(DataSource dataSource) {
@@ -72,6 +94,16 @@ public class BatchConfiguration {
 			.sql("INSERT INTO people (jobTitle,emailAddress,firstName,lastName,salary,amoutAddToSalary,phoneNumber) VALUES (:jobTitle,:emailAddress,:firstName,:lastName,:salary,:amoutAddToSalary,:phoneNumber)")
 			.dataSource(dataSource)
 			.build();
+	}
+	@Bean
+	public CompositeItemWriter<Person> compositItemWriter(DataSource dataSource) {
+	CompositeItemWriter<Person> compositeItemWriter = new CompositeItemWriter<>();
+    List<org.springframework.batch.item.ItemWriter<? super Person>> delegates = new ArrayList<>();
+    delegates.add(dbWriter);
+    delegates.add(fileWriter);
+    delegates.add(writer(dataSource));
+    compositeItemWriter.setDelegates(delegates);
+    return compositeItemWriter;
 	}
 	// end::readerwriterprocessor[]
 
@@ -95,14 +127,16 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Step step1(JdbcBatchItemWriter<Person> writer) {
+	public Step step1(CompositeItemWriter<Person> compositItemWriter) {
 		return stepBuilderFactory.get("step1")
 			.<Person, Person> chunk(1000)
 			.reader(multiResourceItemReader())
 			.processor(processor())
-			.writer(writer)
+			.writer(compositItemWriter)
 			.throttleLimit(20)
 			.build();
 	}
+	
+	
 	// end::jobstep[]
 }
