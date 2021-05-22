@@ -41,8 +41,10 @@ import com.hsbc.writers.FileWriter;
 @EnableBatchProcessing
 public class BatchConfiguration {
 	
-	@Value("client*.csv")
+	@Value("client1set1*.csv")
 	private Resource[] inputResources;
+	@Value("client1set2*.csv")
+	private Resource[] inputResources1;
 
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
@@ -125,12 +127,31 @@ public class BatchConfiguration {
 	    resourceItemReader.setDelegate(reader());
 	    return resourceItemReader;
 	}
+	
+	@Bean
+	public MultiResourceItemReader<Person> multiResourceItemReader1() 
+	{
+	    MultiResourceItemReader<Person> resourceItemReader = new MultiResourceItemReader<Person>();
+	    resourceItemReader.setResources(inputResources1);
+	    resourceItemReader.setDelegate(reader());
+	    return resourceItemReader;
+	}
 
 	@Bean
 	public Step step1(CompositeItemWriter<Person> compositItemWriter) {
 		return stepBuilderFactory.get("step1")
 			.<Person, Person> chunk(1000)
 			.reader(multiResourceItemReader())
+			.processor(processor())
+			.writer(compositItemWriter)
+			.throttleLimit(20)
+			.build();
+	}
+	@Bean
+	public Step step2(CompositeItemWriter<Person> compositItemWriter) {
+		return stepBuilderFactory.get("step2")
+			.<Person, Person> chunk(1000)
+			.reader(multiResourceItemReader1())
 			.processor(processor())
 			.writer(compositItemWriter)
 			.throttleLimit(20)
