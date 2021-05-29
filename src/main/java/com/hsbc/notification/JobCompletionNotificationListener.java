@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.hsbc.dto.Person;
+import com.hsbc.dto.TransactionRecord;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
@@ -27,12 +27,22 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 	public void afterJob(JobExecution jobExecution) {
 		if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
 			log.info("!!! JOB FINISHED! Time to verify the results");
+			jdbcTemplate.query("SELECT COUNT(*) FROM TransactionRecord",(rs,row)->rs.getInt(1)).forEach(System.out::print);
 
-			jdbcTemplate.query("SELECT jobTitle,emailAddress,firstName,lastName,salary,amoutAddToSalary,phoneNumber FROM people",
-				(rs, row) -> new Person(
-					row, rs.getString(2),
-					rs.getString(3), rs.getString(4), rs.getString(5), rs.getFloat(6), rs.getFloat(7), rs.getString(3))
-			).forEach(person -> log.info("Found <" + person + "> in the database."));
+/*			jdbcTemplate.query("SELECT jobTitle,emailAddress,firstName,lastName,salary,amountAddToSalary,phoneNumber FROM TransactionRecord",
+				(rs, row) -> new TransactionRecord(
+					row, rs.getString(1), rs.getString(2),
+					rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getFloat(6), rs.getString(7))
+			).forEach(tr -> log.info("Found <" + tr + "> in the database."));*/
 		}
-	}
+		//jdbcTemplate.query("SELECT COUNT(*) FROM ReportDto",(rs,row)->rs.getInt(1)).forEach(System.out::print);
+
+		/*			jdbcTemplate.query("SELECT jobTitle,emailAddress,firstName,lastName,salary,amountAddToSalary,phoneNumber FROM TransactionRecord",
+						(rs, row) -> new TransactionRecord(
+							row, rs.getString(1), rs.getString(2),
+							rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getFloat(6), rs.getString(7))
+					).forEach(tr -> log.info("Found <" + tr + "> in the database."));*/
+				}
+		
+	
 }
