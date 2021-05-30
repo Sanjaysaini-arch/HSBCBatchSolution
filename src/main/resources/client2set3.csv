@@ -1,6 +1,20 @@
 id,jobTitle,emailAddress,firstName,lastName,salary,amoutAddToSalary,phoneNumber,downStreamType
-300001,Global Logistics Supervisor,Darlene_Sanchez3398@bulaffy.com,Darlene,Sanchez,78261,140,387139337,file
+300001,Global Logistics Supervisor,Darlene_Sanchez3398@bulaffy.com,Darlene,Sanchez,78261,767,387139337,file
 300002,Webmaster,Jack_Richardson7479@qater.org,Jack,Richardson,63541,538,1118173610,db
-,Web Developer,Rita_Sherwood707@jiman.org,Rita,Sherwood,65200,140,1136585815,rest
-300004,Biologist,Cara_Collingwood818@bauros.biz,Cara,Collingwood,42225,140,87096909,file
-300005,Biologist,Cara_Collingwood818@bauros.biz,Cara,Collingwood,42225,140,87096909,file
+,,Rita_Sherwood707@jiman.org,Rita,Sherwood,65200,631,1136585815,rest
+,Cara_Collingwood818@bauros.biz,Cara,Collingwood,42225,231,87096909,file
+300005,Pharmacist,Roger_Hope4106@womeona.net,Roger,Hope,77835,259,52188004,db
+300006,Laboratory Technician,Mandy_Fenton3633@bretoux.com,Mandy,Fenton,50867,198,1062973077,rest
+300007,CNC Operator,Ivy_Pickard8052@bauros.biz,Ivy,Pickard,50418,820,1909636886,file
+300008,Healthcare Specialist,Tyson_Shields6950@vetan.org,Tyson,Shields,90974,538,1216021256,db
+300009,Treasurer,Amy_Roman9604@guentu.biz,Amy,Roman,35632,497,1131612573,rest
+300010,Front Desk Coordinator,Alessandra_Harvey2821@infotech44.tech,Alessandra,Harvey,31987,984,1784109278,file
+300011,Dentist,Sebastian_Denton8671@vetan.org,Sebastian,Denton,46949,182,198932049,db
+300012,Physician,Faith_Vass6994@zorer.org,Faith,Vass,88814,153,1515996245,rest
+300013,Systems Administrator,Kate_Hall7485@gmail.com,Kate,Hall,34902,745,1199646541,file
+300014,Treasurer,Ramon_Brown4455@deavo.com,Ramon,Brown,48969,651,1261142428,db
+300015,Pharmacist,Tom_Silva1772@zorer.org,Tom,Silva,98725,757,88720550,rest
+300016,Lecturer,Evelynn_Evans9726@liret.org,Evelynn,Evans,71077,560,1728050422,file
+300017,Business Broker,Andie_Hunter7035@deons.tech,Andie,Hunter,51714,720,1492294,db
+300018,Webmaster,Anais_Doherty581@atink.com,Anais,Doherty,25207,610,1549476366,rest
+300019,Clerk,Rick_Jordan7931@fuliss.net,Rick,Jordan,46494,303,1886152067,file

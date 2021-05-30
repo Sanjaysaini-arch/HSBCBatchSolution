@@ -1,0 +1,83 @@
+2021-05-29 20:09:27.495  WARN 26121 --- [restartedMain] o.s.boot.StartupInfoLogger               : InetAddress.getLocalHost().getHostName() took 5002 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+2021-05-29 20:09:32.505  INFO 26121 --- [restartedMain] com.hsbc.FileProcessorApplication        : Starting FileProcessorApplication using Java 1.8.0_151 on Sanjays-MacBook-Air.local with PID 26121 (/Users/sanjaysaini/Desktop/traingContent/itsme/softwares and Bill/fileProcessor/target/classes started by sanjaysaini in /Users/sanjaysaini/Desktop/traingContent/itsme/softwares and Bill/fileProcessor)
+2021-05-29 20:09:32.506  INFO 26121 --- [restartedMain] com.hsbc.FileProcessorApplication        : No active profile set, falling back to default profiles: default
+2021-05-29 20:09:32.571  INFO 26121 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-05-29 20:09:32.571  INFO 26121 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-05-29 20:09:33.634  INFO 26121 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-29 20:09:33.747  INFO 26121 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 97 ms. Found 3 JPA repository interfaces.
+2021-05-29 20:09:34.726  INFO 26121 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-05-29 20:09:34.740  INFO 26121 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-29 20:09:34.741  INFO 26121 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-05-29 20:09:34.843  INFO 26121 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-05-29 20:09:34.843  INFO 26121 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2271 ms
+2021-05-29 20:09:34.925  INFO 26121 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-29 20:09:35.386  INFO 26121 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-29 20:09:35.399  INFO 26121 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-05-29 20:09:35.675  INFO 26121 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-29 20:09:35.749  INFO 26121 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-05-29 20:09:35.966  INFO 26121 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-29 20:09:36.170  INFO 26121 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-05-29 20:09:37.509  INFO 26121 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-29 20:09:37.528  INFO 26121 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-29 20:09:37.595  INFO 26121 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-05-29 20:09:38.640  INFO 26121 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService
+2021-05-29 20:09:38.644  INFO 26121 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2021-05-29 20:09:38.739  WARN 26121 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-29 20:09:39.508  WARN 26121 --- [restartedMain] o.s.b.a.batch.JpaBatchConfigurer         : JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+2021-05-29 20:09:39.515  INFO 26121 --- [restartedMain] o.s.b.c.r.s.JobRepositoryFactoryBean     : No database type set, using meta data indicating: H2
+2021-05-29 20:09:39.552  INFO 26121 --- [restartedMain] o.s.b.c.l.support.SimpleJobLauncher      : No TaskExecutor has been set, defaulting to synchronous executor.
+2021-05-29 20:09:39.759  INFO 26121 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-05-29 20:09:39.772  INFO 26121 --- [restartedMain] com.hsbc.FileProcessorApplication        : Started FileProcessorApplication in 27.94 seconds (JVM running for 33.965)
+2021-05-29 20:09:39.774  INFO 26121 --- [restartedMain] o.s.b.a.b.JobLauncherApplicationRunner   : Running default command line with: []
+2021-05-29 20:09:39.880  INFO 26121 --- [restartedMain] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=importUserJob]] launched with the following parameters: [{run.id=1}]
+2021-05-29 20:09:39.936  INFO 26121 --- [restartedMain] o.s.batch.core.job.SimpleStepHandler     : Executing step: [masterStep]
+2021-05-29 20:09:39.951  INFO 26121 --- [restartedMain] BatchConfiguration                       : In Partitioner
+2021-05-29 20:09:39.966  INFO 26121 --- [restartedMain] o.s.batch.core.step.AbstractStep         : Step: [masterStep] executed in 30ms
+2021-05-29 20:09:39.972  INFO 26121 --- [restartedMain] c.h.n.JobCompletionNotificationListener  : !!! JOB FINISHED! Time to verify the results
+2021-05-29 20:09:39.976  INFO 26121 --- [restartedMain] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=importUserJob]] completed with the following parameters: [{run.id=1}] and the following status: [COMPLETED] in 59ms
+2021-05-29 21:48:49.523  INFO 26121 --- [Thread-7] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'taskExecutor'
+2021-05-29 21:48:49.529  INFO 26121 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-29 21:48:49.533  INFO 26121 --- [Thread-7] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2021-05-29 21:48:49.777  WARN 26121 --- [Thread-7] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2021-05-29 21:48:49.786  INFO 26121 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-29 21:48:49.810  INFO 26121 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-29 21:49:05.657  WARN 26121 --- [restartedMain] o.s.boot.StartupInfoLogger               : InetAddress.getLocalHost().getHostName() took 5002 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+2021-05-29 21:49:10.670  INFO 26121 --- [restartedMain] com.hsbc.FileProcessorApplication        : Starting FileProcessorApplication using Java 1.8.0_151 on Sanjays-MacBook-Air.local with PID 26121 (/Users/sanjaysaini/Desktop/traingContent/itsme/softwares and Bill/fileProcessor/target/classes started by sanjaysaini in /Users/sanjaysaini/Desktop/traingContent/itsme/softwares and Bill/fileProcessor)
+2021-05-29 21:49:10.671  INFO 26121 --- [restartedMain] com.hsbc.FileProcessorApplication        : No active profile set, falling back to default profiles: default
+2021-05-29 21:49:11.186  INFO 26121 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-29 21:49:11.241  INFO 26121 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 3 JPA repository interfaces.
+2021-05-29 21:49:11.684  INFO 26121 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-05-29 21:49:11.686  INFO 26121 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-29 21:49:11.686  INFO 26121 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-05-29 21:49:11.706  INFO 26121 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-05-29 21:49:11.707  INFO 26121 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1029 ms
+2021-05-29 21:49:11.744  INFO 26121 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2021-05-29 21:49:11.749  INFO 26121 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2021-05-29 21:49:11.751  INFO 26121 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-05-29 21:49:11.809  INFO 26121 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-29 21:49:11.822  INFO 26121 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-05-29 21:49:12.074  INFO 26121 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-29 21:49:12.075  INFO 26121 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-29 21:49:12.114  INFO 26121 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-05-29 21:49:12.995  INFO 26121 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService
+2021-05-29 21:49:12.996  INFO 26121 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2021-05-29 21:49:13.052  WARN 26121 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-29 21:49:13.292  WARN 26121 --- [restartedMain] o.s.b.a.batch.JpaBatchConfigurer         : JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+2021-05-29 21:49:13.303  INFO 26121 --- [restartedMain] o.s.b.c.r.s.JobRepositoryFactoryBean     : No database type set, using meta data indicating: H2
+2021-05-29 21:49:13.314  INFO 26121 --- [restartedMain] o.s.b.c.l.support.SimpleJobLauncher      : No TaskExecutor has been set, defaulting to synchronous executor.
+2021-05-29 21:49:13.493  INFO 26121 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-05-29 21:49:13.527  INFO 26121 --- [restartedMain] com.hsbc.FileProcessorApplication        : Started FileProcessorApplication in 23.017 seconds (JVM running for 6007.378)
+2021-05-29 21:49:13.530  INFO 26121 --- [restartedMain] o.s.b.a.b.JobLauncherApplicationRunner   : Running default command line with: []
+2021-05-29 21:49:13.545  INFO 26121 --- [restartedMain] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=importUserJob]] launched with the following parameters: [{run.id=1}]
+2021-05-29 21:49:13.571  INFO 26121 --- [restartedMain] o.s.batch.core.job.SimpleStepHandler     : Executing step: [masterStep]
+2021-05-29 21:49:13.582  INFO 26121 --- [restartedMain] BatchConfiguration                       : In Partitioner
+2021-05-29 21:49:13.586  INFO 26121 --- [restartedMain] o.s.batch.core.step.AbstractStep         : Step: [masterStep] executed in 15ms
+2021-05-29 21:49:13.591  INFO 26121 --- [restartedMain] c.h.n.JobCompletionNotificationListener  : !!! JOB FINISHED! Time to verify the results
+2021-05-29 21:49:13.633  INFO 26121 --- [restartedMain] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=importUserJob]] completed with the following parameters: [{run.id=1}] and the following status: [COMPLETED] in 45ms
+2021-05-29 21:49:13.638  INFO 26121 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2021-05-29 21:53:10.196  INFO 26121 --- [Thread-15] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'taskExecutor'
+2021-05-29 21:53:10.205  INFO 26121 --- [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-29 21:53:10.208  INFO 26121 --- [Thread-15] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2021-05-29 21:53:10.431  WARN 26121 --- [Thread-15] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2021-05-29 21:53:10.433  INFO 26121 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2021-05-29 21:53:10.445  INFO 26121 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.

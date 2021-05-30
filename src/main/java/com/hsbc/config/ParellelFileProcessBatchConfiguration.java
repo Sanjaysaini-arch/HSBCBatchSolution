@@ -1,14 +1,12 @@
 package com.hsbc.config;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
-import javax.sql.DataSource;
-
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.LongSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -21,20 +19,10 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.partition.support.MultiResourcePartitioner;
 import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.core.step.skip.SkipPolicy;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
-import org.springframework.batch.item.database.JdbcBatchItemWriter;
-import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.FlatFileItemWriter;
-import org.springframework.batch.item.file.FlatFileParseException;
-import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
-import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
-import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.support.ClassifierCompositeItemWriter;
-import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.batch.item.validator.SpringValidator;
 import org.springframework.batch.item.validator.Validator;
@@ -42,17 +30,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.classify.BackToBackPatternClassifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
@@ -63,14 +51,9 @@ import com.hsbc.listener.CustomItemReaderListener;
 import com.hsbc.listener.CustomItemStepListener;
 import com.hsbc.listener.CustomItemWriterListener;
 import com.hsbc.notification.JobCompletionNotificationListener;
-import com.hsbc.processor.PersonItemProcessor;
-import com.hsbc.writers.CustomLineAggregator;
-import com.hsbc.writers.DbWriter;
-import com.hsbc.writers.FileWriter;
-import com.hsbc.writers.RestApiDownStreamWriter;
+import com.hsbc.writers.KafkaWriterDownStreamTopic1;
+import com.hsbc.writers.KafkaWriterDownStreamTopic2;
 import com.hsbc.writers.TransactionRecordClassifier;
-
-import io.micrometer.core.instrument.config.validate.ValidationException;
 
 
 
@@ -88,17 +71,34 @@ public class ParellelFileProcessBatchConfiguration {
 	private Resource[] inputResources1;
 
 	@Autowired
-	public JobBuilderFactory jobBuilderFactory;
+	private JobBuilderFactory jobBuilderFactory;
 
 	@Autowired
-	public StepBuilderFactory stepBuilderFactory;
+	private StepBuilderFactory stepBuilderFactory;
 	
-	@Autowired
-	DbWriter dbWriter;
-	@Autowired
-	FileWriter fileWriter;
-	@Autowired
-	RestApiDownStreamWriter restApiDownStreamWriter;
+	
+	KafkaWriterDownStreamTopic1 kafkaWriterDownStreamTopic1;
+	KafkaWriterDownStreamTopic2 kafkaWriterDownStreamTopic2;
+
+	
+	@Bean
+    public ProducerFactory<Long, TransactionRecord> producerFactory() {
+        Map<String, Object> config = new HashMap<>();
+
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+
+    @Bean
+    public KafkaTemplate<Long, TransactionRecord> kafkaTemplate() {
+        return new KafkaTemplate<Long, TransactionRecord>(producerFactory());
+    
+    }
+	
 	
 	@Autowired
 	private FlatFileItemReader<TransactionRecord> personItemReader;
@@ -124,63 +124,16 @@ public class ParellelFileProcessBatchConfiguration {
 		return  validator;
 		
 	}
-	/*@Bean
-    public FlatFileItemWriter<TransactionRecord> jsonItemWriter() throws Exception {
- 
-        String customerOutputPath = File.createTempFile("customerOutput", ".out").getAbsolutePath();
-        System.out.println(">> Output Path = " + customerOutputPath);
-        FlatFileItemWriter<TransactionRecord> writer = new FlatFileItemWriter<>();
-        writer.setLineAggregator(new CustomLineAggregator());
-        writer.setResource(new FileSystemResource(customerOutputPath));
-        writer.afterPropertiesSet();
-        return writer;
-    }*/
 	
-	/*private Resource outputResource = new FileSystemResource("output/outputData.csv");
-	 
-    @Bean
-    public FlatFileItemWriter<TransactionRecord> writer() 
-    {
-        //Create writer instance
-        FlatFileItemWriter<TransactionRecord> writer = new FlatFileItemWriter<>();
-         
-        //Set output file location
-        writer.setResource(outputResource);
-         
-        //All job repetitions should "append" to same output file
-        writer.setAppendAllowed(true);
-         
-        //Name field values sequence based on object properties 
-        writer.setLineAggregator(new DelimitedLineAggregator<TransactionRecord>() {
-            {
-                setDelimiter(",");
-                setFieldExtractor(new BeanWrapperFieldExtractor<TransactionRecord>() {
-                    {
-                        setNames(new String[] { "id", "firstName", "lastName" });
-                    }
-                });
-            }
-        });
-        return writer;
-    }
-*/
+	
 	@Bean
 	public ClassifierCompositeItemWriter<TransactionRecord> classifierRecordCompositeItemWriter() throws Exception {
 		ClassifierCompositeItemWriter<TransactionRecord> compositeItemWriter = new ClassifierCompositeItemWriter<>();
-		compositeItemWriter.setClassifier(new TransactionRecordClassifier(dbWriter,restApiDownStreamWriter));
+		compositeItemWriter.setClassifier(new TransactionRecordClassifier(kafkaWriterDownStreamTopic2 ,kafkaWriterDownStreamTopic1));
 		return compositeItemWriter;
 	}
 	
-	@Bean
-	public CompositeItemWriter<TransactionRecord> compositItemWriter(DataSource dataSource) {
-	CompositeItemWriter<TransactionRecord> compositeItemWriter = new CompositeItemWriter<>();
-    List<org.springframework.batch.item.ItemWriter<? super TransactionRecord>> delegates = new ArrayList<>();
-    delegates.add(dbWriter);
-    delegates.add(fileWriter);
-    compositeItemWriter.setDelegates(delegates);
-    return compositeItemWriter;
-	}
-
+	
 	
 	@Bean
 	public SkipPolicy fileVerificationSkipper() {
