@@ -12,16 +12,22 @@ public class CustomItemProcessorListener implements ItemProcessListener<Transact
 		
 	  @Override
 	  public void beforeProcess(TransactionRecord item) {
-		  logger.info("ItemProcessListener ---- beforeProcess");
+		  //Please apply business logic or record manupulation here if need 
 	  }
 	 
 	  @Override
 	  public void afterProcess(TransactionRecord item, TransactionRecord result) {
-		  logger.info("ItemProcessListener ---- afterProcess");
+		  if(result!=null) {
+		  logger.info("SuccessFullyProcess:"+result);
+		  }else {
+		  logger.info("FailedProcess:"+item);
+		  }
+			  
 	  }
 	 
 	  @Override
 	  public void onProcessError(TransactionRecord item, Exception e) {
-		  logger.info("ItemProcessListener ---- onProcessError"+item);
+		  logger.info("FailedProcess:"+item);
+		  logger.error("FailedProcessExceptionReason:"+e.getMessage());
 	  }
 	}

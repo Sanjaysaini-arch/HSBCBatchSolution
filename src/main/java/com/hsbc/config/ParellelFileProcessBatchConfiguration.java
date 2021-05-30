@@ -124,7 +124,7 @@ public class ParellelFileProcessBatchConfiguration {
 		return  validator;
 		
 	}
-	@Bean
+	/*@Bean
     public FlatFileItemWriter<TransactionRecord> jsonItemWriter() throws Exception {
  
         String customerOutputPath = File.createTempFile("customerOutput", ".out").getAbsolutePath();
@@ -134,9 +134,9 @@ public class ParellelFileProcessBatchConfiguration {
         writer.setResource(new FileSystemResource(customerOutputPath));
         writer.afterPropertiesSet();
         return writer;
-    }
+    }*/
 	
-	private Resource outputResource = new FileSystemResource("output/outputData.csv");
+	/*private Resource outputResource = new FileSystemResource("output/outputData.csv");
 	 
     @Bean
     public FlatFileItemWriter<TransactionRecord> writer() 
@@ -163,7 +163,7 @@ public class ParellelFileProcessBatchConfiguration {
         });
         return writer;
     }
-
+*/
 	@Bean
 	public ClassifierCompositeItemWriter<TransactionRecord> classifierRecordCompositeItemWriter() throws Exception {
 		ClassifierCompositeItemWriter<TransactionRecord> compositeItemWriter = new ClassifierCompositeItemWriter<>();
@@ -273,7 +273,8 @@ public class ParellelFileProcessBatchConfiguration {
 	public FlatFileItemReader<TransactionRecord> personItemReader(@Value("#{stepExecutionContext['fileName']}") String filename)
 			throws MalformedURLException {
 		logger.info("In Reader");
-		return new FlatFileItemReaderBuilder<TransactionRecord>().name("personItemReader").linesToSkip(1)
+		return new FlatFileItemReaderBuilder<TransactionRecord>().name("personItemReader")
+				.linesToSkip(1)
 				.delimited()
 				.names(new String[]{"id","jobTitle","emailAddress","firstName","lastName","salary","amoutAddToSalary","phoneNumber","downStreamType"})
 				.fieldSetMapper(new BeanWrapperFieldSetMapper<TransactionRecord>() {

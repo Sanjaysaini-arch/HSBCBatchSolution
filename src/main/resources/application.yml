@@ -1,2 +1,12 @@
+spring:
+  application:
+    name: HSBC-Batch-UseCase
+server:
+    port: 8081
 logging:
-  file: \Users⁩\⁨sanjaysaini⁩\⁨Desktop⁩\traingContent⁩\ELK⁩\elk-stack.log
+    file: 
+      path: /Users/sanjaysaini/Desktop/traingContent/itsme/softwares and Bill/fileProcessor
+      name: elk-stack1.log
+
+        
+        

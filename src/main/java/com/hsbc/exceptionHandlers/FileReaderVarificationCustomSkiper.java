@@ -38,19 +38,20 @@ public class FileReaderVarificationCustomSkiper implements SkipPolicy {
             return false;
         }else if (exception instanceof FlatFileParseException && skipCount <= 5) {
         	ReportDto reportDto=new ReportDto();
-        	reportDto.setClient_Id("client1");
+        	//reportDto.setClient_Id("client1");
         	
             FlatFileParseException ffpe = (FlatFileParseException) exception;
             StringBuilder errorMessage = new StringBuilder();
-            reportDto.setRecordId(ffpe.getLineNumber());
-            reportDto.setRecordProcessStratTime(LocalDateTime.now());
-            errorMessage.append("An error occured while processing the " + ffpe.getLineNumber()
-                    + " line of the file. Below was the faulty " + "input.\n");
+            //reportDto.setRecordId(ffpe.getLineNumber());
+            //reportDto.setRecordProcessStratTime(LocalDateTime.now());
+            errorMessage.append("ReadSkip: An error at " + ffpe.getLineNumber()
+                    + " line of the file. Faulty record " + "input.\n");
             errorMessage.append(ffpe.getInput() + "\n");
-            logger.error("{}", errorMessage.toString());
-            reportDto.setRecordProcessEndTime(LocalDateTime.now());
-            reportDto.setRecordProcessDuration(Duration.between(reportDto.getRecordProcessStratTime(), reportDto.getRecordProcessEndTime()).toMillis());
-            reportDtoRepository.save(reportDto);
+            logger.info("{}", errorMessage.toString());
+            
+            //reportDto.setRecordProcessEndTime(LocalDateTime.now());
+            //reportDto.setRecordProcessDuration(Duration.between(reportDto.getRecordProcessStratTime(), reportDto.getRecordProcessEndTime()).toMillis());
+            //reportDtoRepository.save(reportDto);
             return true;
         }else if (exception instanceof org.springframework.batch.item.validator.ValidationException) {
             return true;

@@ -16,12 +16,12 @@ public class CustomItemReaderListener implements ItemReadListener<TransactionRec
 	 
 	  @Override
 	  public void afterRead(TransactionRecord item) {
-		  logger.info("ItemReadListener ---- after read ");
+		  logger.info("SuccessFullyRead:"+item);
 	  }
 	 
 	  @Override
 	  public void onReadError(Exception ex) {
-		  logger.info("ItemReadListener ---- exception");
+		  logger.error("FailedReadReason:"+ex.getMessage());
 	  }
 	}
 

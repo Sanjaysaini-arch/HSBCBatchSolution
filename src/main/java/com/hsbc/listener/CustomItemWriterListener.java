@@ -13,17 +13,19 @@ public class CustomItemWriterListener implements ItemWriteListener<TransactionRe
 		
 	  @Override
 	  public void beforeWrite(List<? extends TransactionRecord> items) {
-		  logger.info("ItemWriteListener ---- before write" + items);
+		 //before write any manupulation to record can be done here;
 	  }
 	 
 	  @Override
 	  public void afterWrite(List<? extends TransactionRecord> items) {
-		  logger.info("ItemWriteListener ---- after write" + items);
+		 items.stream().forEach(item->logger.info("SuccessFullyWrite:"+item));
 	 
 	  }
 	 
 	  @Override
 	  public void onWriteError(Exception exception, List<? extends TransactionRecord> items) {
-		  logger.info("ItemWriteListener ---- exception" + items);
+		  items.stream().forEach(
+				  item->logger.error("FailedWrite:"+item+"FailedWriteReason"+exception.getMessage()));
+
 	  }
 	}
