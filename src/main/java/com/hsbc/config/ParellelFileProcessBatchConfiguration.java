@@ -68,8 +68,11 @@ public class ParellelFileProcessBatchConfiguration {
 	
 	@Value("${com.hsbc.file.path.client}")
 	private Resource[] inputResources;
-	@Value("${com.hsbc.file.path.clients}")
-	private Resource[] inputResources1;
+	
+	@Value("${com.hsbc.resource.path}")
+	private String filePattern;
+	@Value("${spring.kafka.bootstrap-servers}")
+	private String kafkaURI;
 
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
@@ -87,7 +90,7 @@ public class ParellelFileProcessBatchConfiguration {
     public ProducerFactory<String, TransactionRecord> producerFactory() {
         Map<String, Object> config = new HashMap<>();
 
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,kafkaURI );
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 

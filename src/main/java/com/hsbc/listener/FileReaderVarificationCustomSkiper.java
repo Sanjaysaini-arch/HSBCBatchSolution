@@ -15,9 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
-import com.hsbc.dto.ReportDto;
-import com.hsbc.repository.ReportDtoRepository;
-import com.hsbc.repository.TransactionRecordRepository;
+
+
  
 /**
  * The Class FileReaderVarificationCustomSkiper.
@@ -28,8 +27,7 @@ public class FileReaderVarificationCustomSkiper implements SkipPolicy {
      
     private static final Logger logger = LoggerFactory.getLogger("badRecordLogger");
     
-    @Autowired
-    private ReportDtoRepository reportDtoRepository;
+  
     
  
     @Override
@@ -37,8 +35,7 @@ public class FileReaderVarificationCustomSkiper implements SkipPolicy {
         if (exception instanceof FileNotFoundException) {
             return false;
         }else if (exception instanceof FlatFileParseException && skipCount <= 5) {
-        	ReportDto reportDto=new ReportDto();
-        	//reportDto.setClient_Id("client1");
+        
         	
             FlatFileParseException ffpe = (FlatFileParseException) exception;
             StringBuilder errorMessage = new StringBuilder();
