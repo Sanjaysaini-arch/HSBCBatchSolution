@@ -21,7 +21,7 @@ public class KafkaWriterDownStreamTopic1 implements ItemWriter<TransactionRecord
     private String jsonTopic;
 
     @Autowired
-    private KafkaTemplate<Long, TransactionRecord> kafkaTemplate;
+    private KafkaTemplate<String, TransactionRecord> kafkaTemplate;
 
     @Override
     public void write(List<? extends TransactionRecord> records) throws Exception {

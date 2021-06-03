@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -45,11 +46,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 import com.hsbc.dto.TransactionRecord;
-import com.hsbc.exceptionHandlers.FileReaderVarificationCustomSkiper;
 import com.hsbc.listener.CustomItemProcessorListener;
 import com.hsbc.listener.CustomItemReaderListener;
 import com.hsbc.listener.CustomItemStepListener;
 import com.hsbc.listener.CustomItemWriterListener;
+import com.hsbc.listener.FileReaderVarificationCustomSkiper;
 import com.hsbc.notification.JobCompletionNotificationListener;
 import com.hsbc.writers.KafkaWriterDownStreamTopic1;
 import com.hsbc.writers.KafkaWriterDownStreamTopic2;
@@ -76,17 +77,18 @@ public class ParellelFileProcessBatchConfiguration {
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
 	
-	
+	@Autowired
 	KafkaWriterDownStreamTopic1 kafkaWriterDownStreamTopic1;
+	@Autowired
 	KafkaWriterDownStreamTopic2 kafkaWriterDownStreamTopic2;
 
 	
 	@Bean
-    public ProducerFactory<Long, TransactionRecord> producerFactory() {
+    public ProducerFactory<String, TransactionRecord> producerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         return new DefaultKafkaProducerFactory<>(config);
@@ -94,8 +96,8 @@ public class ParellelFileProcessBatchConfiguration {
 
 
     @Bean
-    public KafkaTemplate<Long, TransactionRecord> kafkaTemplate() {
-        return new KafkaTemplate<Long, TransactionRecord>(producerFactory());
+    public KafkaTemplate<String, TransactionRecord> kafkaTemplate() {
+        return new KafkaTemplate<String, TransactionRecord>(producerFactory());
     
     }
 	
